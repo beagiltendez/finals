@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Task Manager</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: plum;
+
+  }
+  
+  .container {
+    max-width: 600px;
+    margin: 50px auto;
+  }
+  
+  .input-section {
+    margin-bottom: 20px;
+  }
+  
+  .task-list {
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+  }
+  
+  .task {
+    margin-bottom: 10px;
+  }
+  
+  .delete-btn {
+    color: red;
+    cursor: pointer;
+  }
+  
+    </style>
+  <div class="container">
+    <h1>Daily Task Manager</h1>
+    <div class="input-section">
+      <h2>Add New Task</h2>
+      <input type="text" id="task-title" placeholder="Title">
+      <input type="text" id="task-description" placeholder="Description">
+      <input type="date" id="task-date">
+      <button onclick="addTask()">Save Task</button>
+    </div>
+    <div class="task-list">
+      <h2>Task List</h2>
+      <ul id="tasks"></ul>
+    </div>
+  </div>
+
+  <script>
+    let tasks = [];
+
+function addTask() {
+  const title = document.getElementById("task-title").value;
+  const description = document.getElementById("task-description").value;
+  const date = document.getElementById("task-date").value;
+
+  if (title && description && date) {
+    const task = { title, description, date };
+    tasks.push(task);
+    displayTasks();
+    clearInputFields();
+  } else {
+    alert("Please fill out all fields!");
+  }
+}
+
+function displayTasks() {
+  const tasksList = document.getElementById("tasks");
+  tasksList.innerHTML = "";
+  tasks.forEach((task, index) => {
+    const li = document.createElement("li");
+    li.classList.add("task");
+    li.innerHTML = `
+      <strong>${task.title}</strong>: ${task.description} (Saved on ${task.date})
+      <span class="delete-btn" onclick="deleteTask(${index})">Delete</span>
+    `;
+    tasksList.appendChild(li);
+  });
+}
+
+function deleteTask(index) {
+  tasks.splice(index, 1);
+  displayTasks();
+}
+
+function clearInputFields() {
+  document.getElementById("task-title").value = "";
+  document.getElementById("task-description").value = "";
+  document.getElementById("task-date").value = "";
+}
+  </script>
+</body>
+</html>
